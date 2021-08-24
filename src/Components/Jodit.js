@@ -1,16 +1,7 @@
 import React, { useState, useRef } from "react";
+import { submitContent } from "../controllers/requestsAPI";
 import JoditEditor from "jodit-react";
-import parse from "html-react-parser";
-
-const submitContent = (content) => {
-  console.log(JSON.stringify({ content: content }));
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content: content }),
-  };
-  fetch("/", requestOptions).then((response) => response.json());
-};
+// import parse from "html-react-parser";
 
 const Jodit = ({}) => {
   const editor = useRef(null);
@@ -22,6 +13,18 @@ const Jodit = ({}) => {
 
   return (
     <>
+      <label>
+        Title:
+        <input type="text"></input>
+      </label>
+      <label>
+        Description:
+        <input type="text"></input>
+      </label>
+      <label>
+        Author:
+        <input type="text"></input>
+      </label>
       <JoditEditor
         ref={editor}
         value={content}
@@ -30,11 +33,15 @@ const Jodit = ({}) => {
         onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
         onChange={(newContent) => {}}
       />
+      <label>
+        Tags (separate with commas):
+        <input type="text"></input>
+      </label>
       <button type="button" onClick={() => submitContent(content)}>
         Submit Content
       </button>
       <h1>Current Content:</h1>
-      <div>{parse(content)}</div>
+      {/* <div>{parse(content)}</div> */}
     </>
   );
 };
