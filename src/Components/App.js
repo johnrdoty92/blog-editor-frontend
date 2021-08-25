@@ -1,8 +1,9 @@
-import Jodit from "./Jodit";
+import Editor from "./Editor";
+
 function App() {
   return (
     <div className="App">
-      <Jodit />
+      <Editor />
     </div>
   );
 }
