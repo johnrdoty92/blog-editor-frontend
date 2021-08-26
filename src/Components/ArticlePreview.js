@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-const ArticlePreview = () => {
+const ArticlePreview = ({article}) => {
   return (
     <StyledPreview>
-      <h3>Title</h3>
-      <p>Description</p>
-      <button className="edit">Edit</button>
+      <h3>{article.title}</h3>
+      <p>{article.description}</p>
+      <button onClick={() => {console.log(article._id)}}className="edit">Edit</button>
       <button className="delete">Delete</button>
     </StyledPreview>
   );

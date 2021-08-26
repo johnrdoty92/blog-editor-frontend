@@ -1,38 +1,47 @@
 import styled from "styled-components";
+import { ACTIONS } from "../hooks/reducer";
 
-const Fields = () => {
+const Fields = ({ dispatch }) => {
   return (
     <StyledFields>
       <label>
         Title:
         <input
           type="text"
-        //   value={title}
-        //   onChange={(e) => setTitle(e.target.value)}
+          //   value={title}
+          onChange={(e) =>
+            dispatch({ type: ACTIONS.CHANGE_TITLE, payload: e.target.value })
+          }
         ></input>
       </label>
       <label>
         Description:
         <input
           type="text"
-        //   value={description}
-        //   onChange={(e) => setDescription(e.target.value)}
+          //   value={description}
+          onChange={(e) =>
+            dispatch({ type: ACTIONS.CHANGE_DESC, payload: e.target.value })
+          }
         ></input>
       </label>
       <label>
         Author:
         <input
           type="text"
-        //   value={author}
-        //   onChange={(e) => setAuthor(e.target.value)}
+          //   value={author}
+          onChange={(e) =>
+            dispatch({ type: ACTIONS.CHANGE_AUTHOR, payload: e.target.value })
+          }
         ></input>
       </label>
       <label>
         Tags (separate with commas):
         <input
           type="text"
-        //   value={tags}
-        //   onChange={(e) => setTags(e.target.value)}
+          //   value={tags}
+          onChange={(e) =>
+            dispatch({ type: ACTIONS.CHANGE_TAGS, payload: e.target.value })
+          }
         ></input>
       </label>
     </StyledFields>
