@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { ACTIONS } from "../hooks/reducer";
 
-const Fields = ({ dispatch }) => {
+const Fields = ({ dispatch, articleDetails }) => {
   return (
     <StyledFields>
       <label>
         Title:
         <input
           type="text"
-          //   value={title}
+          value={articleDetails.title}
           onChange={(e) =>
             dispatch({ type: ACTIONS.CHANGE_TITLE, payload: e.target.value })
           }
@@ -18,7 +18,7 @@ const Fields = ({ dispatch }) => {
         Description:
         <input
           type="text"
-          //   value={description}
+          value={articleDetails.description}
           onChange={(e) =>
             dispatch({ type: ACTIONS.CHANGE_DESC, payload: e.target.value })
           }
@@ -28,7 +28,7 @@ const Fields = ({ dispatch }) => {
         Author:
         <input
           type="text"
-          //   value={author}
+          value={articleDetails.author}
           onChange={(e) =>
             dispatch({ type: ACTIONS.CHANGE_AUTHOR, payload: e.target.value })
           }
@@ -38,7 +38,7 @@ const Fields = ({ dispatch }) => {
         Tags (separate with commas):
         <input
           type="text"
-          //   value={tags}
+          value={articleDetails.tags}
           onChange={(e) =>
             dispatch({ type: ACTIONS.CHANGE_TAGS, payload: e.target.value })
           }

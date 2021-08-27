@@ -6,15 +6,12 @@ import CRUDbtns from "./CRUDbtns";
 import Fields from "./Fields";
 // import parse from "html-react-parser";
 import styled from "styled-components";
-import ArticlePreview from "./ArticlePreview";
+import ArticlesPreview from "./ArticlePreview";
 import { reducer } from "../hooks/reducer.js";
 
 const Editor = ({}) => {
   const [articleDetails, dispatch] = useReducer(reducer, {});
   const articles = useFetch("/articles", [{}]);
-  const articleList = articles.map((article) => {
-    return <ArticlePreview key={article._id} article={article} />;
-  });
 
   const editor = useRef(null);
   const [content, setContent] = useState("");
@@ -22,6 +19,7 @@ const Editor = ({}) => {
   const config = {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
   };
+  //POST REQUEST
   function postArticle(e) {
     e.preventDefault();
     fetch("/articles", {
@@ -29,6 +27,7 @@ const Editor = ({}) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...articleDetails, HTMLcontent: content }),
     });
+    //Need to reset all fields and update the articles when this happens
   }
   return (
     <>
@@ -44,12 +43,12 @@ const Editor = ({}) => {
         />
 
         <div>
-          <Fields dispatch={dispatch} />
+          <Fields dispatch={dispatch} articleDetails={articleDetails}/>
           <CRUDbtns articleDetails={articleDetails} />
         </div>
       </StyledForm>
-      <h1>Current Content:</h1>
-      {articleList}
+      <ArticlesPreview dispatch={dispatch} articles={articles} />
+
     </>
   );
 };

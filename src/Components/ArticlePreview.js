@@ -1,17 +1,33 @@
 import styled from "styled-components";
+import { ACTIONS } from "../hooks/reducer";
 
-const ArticlePreview = ({article}) => {
+const ArticlesPreview = ({ articles, dispatch }) => {
+  const articleList = articles.map((article) => {
+    return (
+      <StyledPreview>
+        <h3>{article.title}</h3>
+        <p>{article.description}</p>
+        <button
+          onClick={() => {
+            dispatch({ type: ACTIONS.EDIT, payload: article });
+          }}
+          className="edit"
+        >
+          Edit
+        </button>
+        <button className="delete">Delete</button>
+      </StyledPreview>
+    );
+  });
   return (
-    <StyledPreview>
-      <h3>{article.title}</h3>
-      <p>{article.description}</p>
-      <button onClick={() => {console.log(article._id)}}className="edit">Edit</button>
-      <button className="delete">Delete</button>
-    </StyledPreview>
+    <>
+      <h1>All articles:</h1>
+      {articleList}
+    </>
   );
 };
 
-export default ArticlePreview;
+export default ArticlesPreview;
 
 const StyledPreview = styled.div`
   display: flex;
