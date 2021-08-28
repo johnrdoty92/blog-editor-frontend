@@ -1,5 +1,7 @@
 export function reducer(state, { type, payload }) {
   switch (type) {
+    case ACTIONS.CHANGE_CONTENT:
+      return { ...state, HTMLcontent: payload };
     case ACTIONS.CHANGE_TITLE:
       return { ...state, title: payload };
     case ACTIONS.CHANGE_DESC:
@@ -12,6 +14,14 @@ export function reducer(state, { type, payload }) {
       //use payload object to fill out the fields and content
       console.log(payload._id);
       return payload;
+    case ACTIONS.CLEAR:
+      return {
+        title: "",
+        description: "",
+        author: "",
+        tags: [],
+        HTMLcontent: "",
+      };
     default:
       console.log("Default action");
       return state;
@@ -25,4 +35,5 @@ export const ACTIONS = {
   CHANGE_TAGS: "CHANGE_TAGS",
   CHANGE_CONTENT: "CHANGE_CONTENT",
   EDIT: "EDIT",
+  CLEAR: "CLEAR",
 };

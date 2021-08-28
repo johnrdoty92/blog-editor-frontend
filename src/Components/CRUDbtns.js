@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { usePost } from "../hooks/usePost";
 
-const CRUDbtns = () => {
+const CrudBtns = () => {
   return (
     <ButtonsWrapper>
       <button className="crud get-all-articles" type="button">
@@ -14,7 +13,7 @@ const CRUDbtns = () => {
   );
 };
 
-export default CRUDbtns;
+export default CrudBtns;
 
 const ButtonsWrapper = styled.div`
   display: flex;

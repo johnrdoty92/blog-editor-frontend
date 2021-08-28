@@ -1,10 +1,11 @@
 import styled from "styled-components";
+import React from "react";
 import { ACTIONS } from "../hooks/reducer";
 
 const ArticlesPreview = ({ articles, dispatch }) => {
   const articleList = articles.map((article) => {
     return (
-      <StyledPreview>
+      <StyledPreview key={article._id}>
         <h3>{article.title}</h3>
         <p>{article.description}</p>
         <button
@@ -20,10 +21,10 @@ const ArticlesPreview = ({ articles, dispatch }) => {
     );
   });
   return (
-    <>
+    <div>
       <h1>All articles:</h1>
       {articleList}
-    </>
+    </div>
   );
 };
 

@@ -1,33 +1,44 @@
-import React, { useState, useRef, useReducer } from "react";
+import React, { useRef, useReducer } from "react";
 import { useFetch } from "../hooks/useFetch";
-import { usePost } from "../hooks/usePost";
 import JoditEditor from "jodit-react";
-import CRUDbtns from "./CRUDbtns";
+import CrudBtns from "./CrudBtns";
 import Fields from "./Fields";
 // import parse from "html-react-parser";
 import styled from "styled-components";
 import ArticlesPreview from "./ArticlePreview";
-import { reducer } from "../hooks/reducer.js";
+import { reducer, ACTIONS } from "../hooks/reducer.js";
 
 const Editor = ({}) => {
-  const [articleDetails, dispatch] = useReducer(reducer, {});
-  const articles = useFetch("/articles", [{}]);
+  const [articleDetails, dispatch] = useReducer(reducer, {
+    title: "",
+    description: "",
+    author: "",
+    tags: [],
+    HTMLcontent: "",
+  });
+  const articles = useFetch("/articles", [
+    {
+      _id: "loading-articles",
+      title: "Loading Title...",
+      description: "Loading Description...",
+    },
+  ]);
 
   const editor = useRef(null);
-  const [content, setContent] = useState("");
+  // const [content, setContent] = useState("");
 
   const config = {
     readonly: false, // all options from https://xdsoft.net/jodit/doc/
   };
   //POST REQUEST
-  function postArticle(e) {
+  async function postArticle(e) {
     e.preventDefault();
-    fetch("/articles", {
+    await fetch("/articles", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...articleDetails, HTMLcontent: content }),
+      body: JSON.stringify(articleDetails),
     });
-    //Need to reset all fields and update the articles when this happens
+    dispatch({ type: ACTIONS.CLEAR });
   }
   return (
     <>
@@ -35,20 +46,22 @@ const Editor = ({}) => {
         <h1 className="page-header">Blog Editor</h1>
         <JoditEditor
           ref={editor}
-          value={content}
+          value={articleDetails.HTMLcontent}
           config={config}
           tabIndex={1} // tabIndex of textarea
-          onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+          // onBlur={(newContent) => setContent(newContent)} // preferred to use only this option to update the content for performance reasons
+          onBlur={(newContent) =>
+            dispatch({ type: ACTIONS.CHANGE_CONTENT, payload: newContent })
+          }
           onChange={(newContent) => {}}
         />
 
         <div>
-          <Fields dispatch={dispatch} articleDetails={articleDetails}/>
-          <CRUDbtns articleDetails={articleDetails} />
+          <Fields dispatch={dispatch} articleDetails={articleDetails} />
+          <CrudBtns articleDetails={articleDetails} />
         </div>
       </StyledForm>
       <ArticlesPreview dispatch={dispatch} articles={articles} />
-
     </>
   );
 };
