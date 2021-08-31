@@ -8,9 +8,15 @@ export const useFetch = (url, initialValue) => {
       .then((response) => response.json())
       .then((json) => setResult(json))
       .catch((err) => {
-        console.error("Error: ", err);
+        console.error("Fetch Error: ", err);
+        setResult([
+          {
+            _id: "error-no-articles",
+            title: "ERROR",
+            description: "Could not connect to database",
+          },
+        ]);
       });
   }, [url]);
-
   return result;
 };

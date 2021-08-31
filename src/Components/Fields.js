@@ -4,6 +4,7 @@ import { ACTIONS } from "../hooks/reducer";
 const Fields = ({ dispatch, articleDetails }) => {
   return (
     <StyledFields>
+    <h2>Create a New Article:</h2>
       <label>
         Title:
         <input
@@ -54,7 +55,9 @@ const StyledFields = styled.div`
   margin: 1em 3em;
   display: flex;
   flex-direction: column;
-
+  h2 {
+    text-align: center;
+  }
   label {
     margin-bottom: 1em;
     width: 100%;
