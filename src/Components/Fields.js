@@ -1,13 +1,10 @@
 import styled from "styled-components";
-import { EditorContext } from "./App";
-import { useContext } from "react";
 import { ACTIONS } from "../hooks/reducer";
 
-const Fields = ({ dispatch, articleDetails }) => {
-  const isEditMode = useContext(EditorContext);
+const Fields = ({ dispatch, articleDetails, heading }) => {
   return (
     <StyledFields>
-      <h2>{isEditMode ? `Current Article ID: \"${articleDetails._id}\"` : "Create a New Article"}</h2>
+      <h2>{heading}</h2>
       <label>
         Title:
         <input

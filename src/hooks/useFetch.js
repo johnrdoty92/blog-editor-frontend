@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
 
-export const useFetch = (url, initialValue) => {
-  const [result, setResult] = useState(initialValue);
+export const useFetch = (url) => {
+  const [result, setResult] = useState([
+    //Initial Value
+    {
+      _id: "loading-articles",
+      title: "Loading Title...",
+      description: "Loading Description...",
+    },
+  ]);
 
   useEffect(() => {
+    console.log("Fetch Request Made");
     fetch(url)
       .then((response) => response.json())
       .then((json) => setResult(json))

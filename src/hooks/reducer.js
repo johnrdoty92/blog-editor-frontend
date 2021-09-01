@@ -11,8 +11,7 @@ export function reducer(state, { type, payload }) {
     case ACTIONS.CHANGE_TAGS:
       return { ...state, tags: payload };
     case ACTIONS.EDIT:
-      //use payload object to fill out the fields and content
-      console.log(payload._id);
+      payload.tags = payload.tags.join(",");
       return payload;
     case ACTIONS.CLEAR:
       return {

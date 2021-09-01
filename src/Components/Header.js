@@ -8,10 +8,14 @@ const Header = () => {
       <StyledNav>
         <ul>
           <li>
-            <NavLink exact to="/" activeClassName="selected">Edit Articles</NavLink>
+            <NavLink exact to="/" activeClassName="selected">
+              Edit Articles
+            </NavLink>
           </li>
           <li>
-            <NavLink to="/new" activeClassName="selected">New Article</NavLink>
+            <NavLink exact to="/new" activeClassName="selected">
+              New Article
+            </NavLink>
           </li>
         </ul>
       </StyledNav>

@@ -1,27 +1,46 @@
 import styled from "styled-components";
 import { StyledButton, Heading } from "./StyledComponents/StyledComponents";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ACTIONS } from "../hooks/reducer";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useFetch } from "../hooks/useFetch";
 
-const ArticlesPreview = ({ articles, dispatch, setIsEditMode }) => {
+const ArticlesPreview = ({ dispatch }) => {
+  //Fetch all articles and rerender anytime an article is deleted
+  const articles = useFetch("/articles");
+  const [articlesArray, setArticlesArray] = useState(articles);
+  useEffect(() => {
+    setArticlesArray(articles);
+  }, [articles, articlesArray]);
+
   let history = useHistory();
-  const articleList = articles.map((article) => {
+
+  const articleList = articlesArray.map((article, index) => {
     return (
       <StyledPreview key={article._id}>
         <h3>{article.title}</h3>
         <p>{article.description}</p>
+        <p className="date">{article.date?.slice(0, 10)}</p>
         <EditButton
           primary
           onClick={() => {
             dispatch({ type: ACTIONS.EDIT, payload: article });
-            setIsEditMode(true);
             history.push(`/edit/${article._id}`);
           }}
         >
           Edit
         </EditButton>
-        <DeleteButton className="delete">Delete</DeleteButton>
+        <DeleteButton
+          onClick={() => {
+            fetch(`/articles/${article._id}`, {
+              method: "DELETE",
+              headers: { "Content-Type": "application/json" },
+            });
+            setArticlesArray(articlesArray.splice(index, 1));
+          }}
+        >
+          Delete
+        </DeleteButton>
       </StyledPreview>
     );
   });
@@ -46,6 +65,9 @@ const StyledPreview = styled.div`
   p {
     margin: 1em;
     align-self: center;
+  }
+  p.date {
+    color: grey;
   }
 `;
 

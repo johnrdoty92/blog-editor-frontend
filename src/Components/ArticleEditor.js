@@ -1,37 +1,43 @@
-import styled from "styled-components";
-import React, { useRef, useContext } from "react";
-import JoditEditor from "jodit-react";
-import Fields from "./Fields";
+import React, { useRef, useEffect } from "react";
 import { ACTIONS } from "../hooks/reducer";
+import styled from "styled-components";
 import { StyledButton } from "./StyledComponents/StyledComponents";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { EditorContext } from "./App";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Fields from "./Fields";
+import JoditEditor from "jodit-react";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 
 const ArticleEditor = ({ dispatch, articleDetails }) => {
+  //Jodit Configuration
   const editor = useRef(null);
   const config = {
-    readonly: false, // all options from https://xdsoft.net/jodit/doc/
+    readonly: false,
   };
-  const isEditMode = useContext(EditorContext);
+  //Router Hooks
   let history = useHistory();
+  let location = useLocation();
+  //Set editing mode to updating or creating and article
+  const editingMode =
+    location.pathname === "/new"
+      ? {
+          heading: "Create Article",
+          method: "POST",
+          buttonText: "Upload",
+        }
+      : { heading: "Edit Article", method: "PATCH", buttonText: "Update" };
+  //Clear all fields if trying to create a new article
+  useEffect(() => {
+    if (location.pathname === "/new") {
+      dispatch({ type: ACTIONS.CLEAR });
+    }
+  }, [dispatch, location]);
 
-  //POST REQUEST
-  async function postArticle(e) {
-    e.preventDefault();
-    await fetch("/articles", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(articleDetails),
-    });
-    dispatch({ type: ACTIONS.CLEAR });
-    history.push("/");
-  }
-  //PATCH REQUEST
-  async function patchArticle(e) {
-    e.preventDefault();
-    await fetch(`/articles/${articleDetails._id}`, {
-      method: "PATCH",
+  async function uploadArticle(method) {
+    articleDetails.tags = articleDetails.tags.split(",");
+    await fetch(`/articles/${method === "PATCH" ? articleDetails._id : ""}`, {
+      method: method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(articleDetails),
     });
@@ -42,10 +48,15 @@ const ArticleEditor = ({ dispatch, articleDetails }) => {
   return (
     <StyledForm
       onSubmit={(e) => {
-        isEditMode ? patchArticle(e) : postArticle(e);
+        e.preventDefault();
+        uploadArticle(editingMode.method);
       }}
     >
-      <Fields dispatch={dispatch} articleDetails={articleDetails} />
+      <Fields
+        dispatch={dispatch}
+        articleDetails={articleDetails}
+        heading={editingMode.heading}
+      />
       <JoditEditor
         ref={editor}
         value={articleDetails.HTMLcontent}
@@ -57,7 +68,7 @@ const ArticleEditor = ({ dispatch, articleDetails }) => {
         onChange={(newContent) => {}}
       />
       <SubmitButton primary type="submit">
-        {isEditMode ? "Update Article" : "Upload Article"}
+        {editingMode.buttonText}
       </SubmitButton>
     </StyledForm>
   );
