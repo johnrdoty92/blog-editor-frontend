@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
 const Header = () => {
   return (
@@ -8,10 +8,10 @@ const Header = () => {
       <StyledNav>
         <ul>
           <li>
-            <Link to="/">Edit Articles</Link>
+            <NavLink exact to="/" activeClassName="selected">Edit Articles</NavLink>
           </li>
           <li>
-            <Link to="/new">New Article</Link>
+            <NavLink to="/new" activeClassName="selected">New Article</NavLink>
           </li>
         </ul>
       </StyledNav>
@@ -57,6 +57,10 @@ const StyledNav = styled.nav`
           background-color: rgb(87, 216, 209);
           color: black;
         }
+      }
+      a.selected {
+        color: white;
+        background: rgba(0, 0, 0, 0.4);
       }
     }
   }

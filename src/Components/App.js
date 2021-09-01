@@ -5,9 +5,11 @@ import ArticlesPreview from "./ArticlesPreview";
 //Router
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 //Hooks
-import { useReducer, useState } from "react";
+import { useReducer, useState, createContext } from "react";
 import { useFetch } from "../hooks/useFetch";
 import { reducer } from "../hooks/reducer.js";
+
+export const EditorContext = createContext();
 
 function App() {
   const articles = useFetch("/articles", [
@@ -24,38 +26,34 @@ function App() {
     tags: [],
     HTMLcontent: "",
   });
-  const [submitButtonText, setSubmitButtonText] = useState("Upload Article");
+  const [isEditMode, setIsEditMode] = useState(false);
 
   return (
     <div className="App">
-      <Router>
-        <div>
-          <Header />
-          <Switch>
-            <Route path="/edit">
-              <ArticleEditor
-                dispatch={dispatch}
-                articleDetails={articleDetails}
-                submitButtonText={submitButtonText}
-              />
-            </Route>
-            <Route path="/new">
-              <ArticleEditor
-                dispatch={dispatch}
-                articleDetails={articleDetails}
-                submitButtonText={submitButtonText}
-              />
-            </Route>
-            <Route path="/">
-              <ArticlesPreview
-                dispatch={dispatch}
-                articles={articles}
-                setSubmitButtonText={setSubmitButtonText}
-              />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
+      <EditorContext.Provider value={isEditMode}>
+        <Router>
+          <div>
+            <Header />
+            <Switch>
+              <Route path="/edit/:id">
+                <ArticleEditor
+                  dispatch={dispatch}
+                  articleDetails={articleDetails}
+                />
+              </Route>
+              <Route path="/new">
+                <ArticleEditor
+                  dispatch={dispatch}
+                  articleDetails={articleDetails}
+                />
+              </Route>
+              <Route path="/">
+                <ArticlesPreview dispatch={dispatch} articles={articles} setIsEditMode={setIsEditMode}/>
+              </Route>
+            </Switch>
+          </div>
+        </Router>
+      </EditorContext.Provider>
     </div>
   );
 }

@@ -1,10 +1,13 @@
 import styled from "styled-components";
+import { EditorContext } from "./App";
+import { useContext } from "react";
 import { ACTIONS } from "../hooks/reducer";
 
 const Fields = ({ dispatch, articleDetails }) => {
+  const isEditMode = useContext(EditorContext);
   return (
     <StyledFields>
-    <h2>Create a New Article:</h2>
+      <h2>{isEditMode ? `Current Article ID: \"${articleDetails._id}\"` : "Create a New Article"}</h2>
       <label>
         Title:
         <input
@@ -61,9 +64,18 @@ const StyledFields = styled.div`
   label {
     margin-bottom: 1em;
     width: 100%;
+    font-weight: bold;
   }
   input {
     box-sizing: border-box;
+    height: 3em;
     width: 100%;
+    border-radius: 5px;
+    border: 2px solid rgb(25, 164, 157);
+    background: rgb(245, 250, 250);
+    &:focus {
+      background: rgb(230, 245, 245);
+      outline: none;
+    }
   }
 `;
