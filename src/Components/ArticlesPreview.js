@@ -1,5 +1,9 @@
 import styled from "styled-components";
-import { StyledButton, Heading } from "./StyledComponents/StyledComponents";
+import {
+  StyledButton,
+  Heading,
+  Container,
+} from "./StyledComponents/StyledComponents";
 import React, { useState, useEffect } from "react";
 import { ACTIONS } from "../hooks/reducer";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
@@ -45,10 +49,10 @@ const ArticlesPreview = ({ dispatch }) => {
     );
   });
   return (
-    <div>
+    <Container>
       <Heading>All Articles</Heading>
       {articleList}
-    </div>
+    </Container>
   );
 };
 
@@ -56,33 +60,59 @@ export default ArticlesPreview;
 
 const StyledPreview = styled.div`
   display: flex;
+  gap: 1em;
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
   margin: 1em auto;
-  max-width: 75%;
+  max-width: 60em;
+  padding: 1em;
   h3 {
-    margin: 1em;
+    line-height: 2em;
+  }
+  h3,
+  p {
+    margin: 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: normal;
+    text-overflow: ellipsis;
+    flex-basis: 25%;
   }
   p {
-    margin: 1em;
     align-self: center;
+    text-align: center;
   }
   p.date {
     color: grey;
   }
+  @media (max-width: 667px) {
+    flex-wrap: wrap;
+    h3{
+      flex: 1 1 100%;
+      text-align: center;
+    }
+    p {
+      white-space: initial;
+      flex: 1 1 100%;
+    }
+    button {
+      margin: 0 auto;
+      max-width: 75%;
+      flex: 1 1 100%;
+    }
+  }
 `;
 
 const EditButton = styled(StyledButton)`
-  width: 5em;
+  min-width: 5em;
   height: 3em;
-  margin: 0.5em;
-  align-self: center;
+  margin: 0;
   margin-left: auto;
+  align-self: center;
 `;
 
 const DeleteButton = styled(StyledButton)`
-  width: 5em;
+  min-width: 5em;
   height: 3em;
-  margin: 0.5em;
-  margin-right: 1em;
+  margin: 0em;
   align-self: center;
 `;

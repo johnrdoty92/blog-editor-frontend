@@ -47,7 +47,6 @@ const StyledNav = styled.nav`
 
     li {
       list-style-type: none;
-      margin: 0 1em;
       a {
         margin: 0.5em;
         padding: 0.25em;

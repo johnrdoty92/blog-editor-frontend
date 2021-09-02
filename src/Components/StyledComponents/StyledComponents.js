@@ -6,6 +6,10 @@ const primaryHighlight = "rgb(87, 216, 209)";
 const danger = "rgb(200, 50, 50)";
 const dangerHighlight = "rgb(255, 120, 120)";
 
+export const Container = styled.div`
+  margin: 0 1em;
+`;
+
 export const StyledButton = styled.button`
   text-transform: uppercase;
   padding: 0.5em;

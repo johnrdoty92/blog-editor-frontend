@@ -2,11 +2,15 @@
 import Header from "./Header";
 import ArticleEditor from "./ArticleEditor";
 import ArticlesPreview from "./ArticlesPreview";
+import Modal from "react-modal";
 //Router
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 //Hooks
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { reducer } from "../hooks/reducer.js";
+import ConfirmationModal from "./ConfirmationModal";
+
+Modal.setAppElement("#root");
 
 function App() {
   const [articleDetails, dispatch] = useReducer(reducer, {
@@ -16,9 +20,16 @@ function App() {
     tags: [],
     HTMLcontent: "",
   });
+  const [fetchResponse, setFetchResponse] = useState({});
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
     <div className="App">
+      <ConfirmationModal
+        fetchResponse={fetchResponse}
+        modalIsOpen={modalIsOpen}
+        setModalIsOpen={setModalIsOpen}
+      />
       <Router>
         <div>
           <Header />
@@ -27,6 +38,8 @@ function App() {
               <ArticleEditor
                 dispatch={dispatch}
                 articleDetails={articleDetails}
+                setFetchResponse={setFetchResponse}
+                setModalIsOpen={setModalIsOpen}
               />
             </Route>
             <Route path="/">

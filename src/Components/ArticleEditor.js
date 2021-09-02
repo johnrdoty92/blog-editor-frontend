@@ -9,7 +9,12 @@ import {
   useLocation,
 } from "react-router-dom/cjs/react-router-dom.min";
 
-const ArticleEditor = ({ dispatch, articleDetails }) => {
+const ArticleEditor = ({
+  dispatch,
+  articleDetails,
+  setFetchResponse,
+  setModalIsOpen,
+}) => {
   //Jodit Configuration
   const editor = useRef(null);
   const config = {
@@ -36,11 +41,21 @@ const ArticleEditor = ({ dispatch, articleDetails }) => {
 
   async function uploadArticle(method) {
     articleDetails.tags = articleDetails.tags.split(",");
-    await fetch(`/articles/${method === "PATCH" ? articleDetails._id : ""}`, {
-      method: method,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(articleDetails),
+    const response = await fetch(
+      `/articles/${method === "PATCH" ? articleDetails._id : ""}`,
+      {
+        method: method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(articleDetails),
+      }
+    );
+    const jsonResponse = await response.json();
+    setFetchResponse({
+      title: jsonResponse?.title,
+      status: response?.status,
+      statusText: response?.statusText,
     });
+    setModalIsOpen(true);
     dispatch({ type: ACTIONS.CLEAR });
     history.push("/");
   }
