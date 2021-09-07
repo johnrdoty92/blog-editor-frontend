@@ -17,7 +17,7 @@ function App() {
     title: "",
     description: "",
     author: "",
-    tags: [],
+    tags: "",
     HTMLcontent: "",
   });
   const [fetchResponse, setFetchResponse] = useState({});
@@ -43,7 +43,11 @@ function App() {
               />
             </Route>
             <Route path="/">
-              <ArticlesPreview dispatch={dispatch} />
+              <ArticlesPreview
+                dispatch={dispatch}
+                setFetchResponse={setFetchResponse}
+                setModalIsOpen={setModalIsOpen}
+              />
             </Route>
           </Switch>
         </div>

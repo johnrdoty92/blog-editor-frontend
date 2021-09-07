@@ -9,7 +9,7 @@ import { ACTIONS } from "../hooks/reducer";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useFetch } from "../hooks/useFetch";
 
-const ArticlesPreview = ({ dispatch }) => {
+const ArticlesPreview = ({ dispatch, setModalIsOpen, setFetchResponse }) => {
   //Fetch all articles and rerender anytime an article is deleted
   const articles = useFetch("/articles");
   const [articlesArray, setArticlesArray] = useState(articles);
@@ -27,6 +27,7 @@ const ArticlesPreview = ({ dispatch }) => {
         <p className="date">{article.date?.slice(0, 10)}</p>
         <EditButton
           primary
+          disabled={article._id === "error"}
           onClick={() => {
             dispatch({ type: ACTIONS.EDIT, payload: article });
             history.push(`/edit/${article._id}`);
@@ -35,6 +36,7 @@ const ArticlesPreview = ({ dispatch }) => {
           Edit
         </EditButton>
         <DeleteButton
+          disabled={article._id === "error"}
           onClick={() => {
             fetch(`/articles/${article._id}`, {
               method: "DELETE",
@@ -65,6 +67,10 @@ const StyledPreview = styled.div`
   margin: 1em auto;
   max-width: 60em;
   padding: 1em;
+  transition: transform 0.25s ease;
+  &:hover {
+    transform: translateY(-4px);
+  }
   h3 {
     line-height: 2em;
   }
@@ -86,7 +92,7 @@ const StyledPreview = styled.div`
   }
   @media (max-width: 667px) {
     flex-wrap: wrap;
-    h3{
+    h3 {
       flex: 1 1 100%;
       text-align: center;
     }
@@ -108,6 +114,13 @@ const EditButton = styled(StyledButton)`
   margin: 0;
   margin-left: auto;
   align-self: center;
+  &:disabled {
+    background: rgb(200, 200, 200);
+    cursor: default;
+    &:hover {
+      color: white;
+    }
+  }
 `;
 
 const DeleteButton = styled(StyledButton)`
@@ -115,4 +128,11 @@ const DeleteButton = styled(StyledButton)`
   height: 3em;
   margin: 0em;
   align-self: center;
+  &:disabled {
+    background: rgb(200, 200, 200);
+    cursor: default;
+    &:hover {
+      color: white;
+    }
+  }
 `;

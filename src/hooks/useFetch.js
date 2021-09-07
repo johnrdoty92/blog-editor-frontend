@@ -13,15 +13,19 @@ export const useFetch = (url) => {
   useEffect(() => {
     console.log("Fetch Request Made");
     fetch(url)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new TypeError("Server failed to respond with JSON");
+      })
       .then((json) => setResult(json))
       .catch((err) => {
-        console.error("Fetch Error: ", err);
         setResult([
           {
-            _id: "error-no-articles",
-            title: "ERROR",
-            description: "Could not connect to database",
+            _id: "error",
+            title: err.name,
+            description: err.message,
           },
         ]);
       });

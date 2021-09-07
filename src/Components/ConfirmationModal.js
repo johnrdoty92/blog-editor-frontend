@@ -17,19 +17,7 @@ const style = {
 };
 
 const ConfirmationModal = ({ fetchResponse, modalIsOpen, setModalIsOpen }) => {
-  const { title, status, statusText } = fetchResponse;
-  const connectionErrMessage = (
-    <p>
-      Please ensure that the server is running and connected to a database.
-      Follow the instructions on the README.md to connect to your own database."
-    </p>
-  );
-  const confirmationMessage = (
-    <p>
-      Article <em>"{title}"</em> was successfully
-      {status === 201 ? " uploaded" : " updated"}!
-    </p>
-  );
+  const { status, title, message } = fetchResponse;
   return (
     <Modal
       isOpen={modalIsOpen}
@@ -37,9 +25,9 @@ const ConfirmationModal = ({ fetchResponse, modalIsOpen, setModalIsOpen }) => {
       style={style}
     >
       <h3 style={{ textAlign: "center" }}>
-        <b>{status}</b> {statusText}
+        <b>{status}</b> {title}
       </h3>
-      {status < 400 ? confirmationMessage : connectionErrMessage}
+      <p>{message}</p>
       <ConfirmationButton onClick={() => setModalIsOpen(false)}>
         OK
       </ConfirmationButton>

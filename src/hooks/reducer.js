@@ -18,7 +18,7 @@ export function reducer(state, { type, payload }) {
         title: "",
         description: "",
         author: "",
-        tags: [],
+        tags: "",
         HTMLcontent: "",
       };
     default:

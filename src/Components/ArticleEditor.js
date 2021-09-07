@@ -40,24 +40,27 @@ const ArticleEditor = ({
   }, [dispatch, location]);
 
   async function uploadArticle(method) {
-    articleDetails.tags = articleDetails.tags.split(",");
-    const response = await fetch(
-      `/articles/${method === "PATCH" ? articleDetails._id : ""}`,
-      {
-        method: method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(articleDetails),
-      }
-    );
-    const jsonResponse = await response.json();
-    setFetchResponse({
-      title: jsonResponse?.title,
-      status: response?.status,
-      statusText: response?.statusText,
-    });
-    setModalIsOpen(true);
-    dispatch({ type: ACTIONS.CLEAR });
-    history.push("/");
+    try {
+      articleDetails.tags = articleDetails.tags.split(",");
+      const response = await fetch(
+        `/articles/${method === "PATCH" ? articleDetails._id : ""}`,
+        {
+          method: method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(articleDetails),
+        }
+      );
+      const jsonResponse = await response.json();
+      setFetchResponse({
+        title: jsonResponse?.title,
+        message: jsonResponse?.message,
+      });
+      setModalIsOpen(true);
+      dispatch({ type: ACTIONS.CLEAR });
+      history.push("/");
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   return (
@@ -80,7 +83,6 @@ const ArticleEditor = ({
         onBlur={(newContent) =>
           dispatch({ type: ACTIONS.CHANGE_CONTENT, payload: newContent })
         }
-        onChange={(newContent) => {}}
       />
       <SubmitButton primary type="submit">
         {editingMode.buttonText}

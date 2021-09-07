@@ -9,6 +9,7 @@ const Fields = ({ dispatch, articleDetails, heading }) => {
         Title:
         <input
           type="text"
+          required={true}
           value={articleDetails.title}
           onChange={(e) =>
             dispatch({ type: ACTIONS.CHANGE_TITLE, payload: e.target.value })
@@ -19,6 +20,7 @@ const Fields = ({ dispatch, articleDetails, heading }) => {
         Description:
         <input
           type="text"
+          required={true}
           value={articleDetails.description}
           onChange={(e) =>
             dispatch({ type: ACTIONS.CHANGE_DESC, payload: e.target.value })
@@ -29,6 +31,7 @@ const Fields = ({ dispatch, articleDetails, heading }) => {
         Author:
         <input
           type="text"
+          required={true}
           value={articleDetails.author}
           onChange={(e) =>
             dispatch({ type: ACTIONS.CHANGE_AUTHOR, payload: e.target.value })
