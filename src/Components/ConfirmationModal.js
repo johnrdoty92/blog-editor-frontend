@@ -1,4 +1,3 @@
-import autobind from "autobind-decorator";
 import Modal from "react-modal";
 import styled from "styled-components";
 import { StyledButton } from "./StyledComponents/StyledComponents";

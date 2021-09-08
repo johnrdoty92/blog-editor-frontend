@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { ACTIONS } from "../hooks/reducer";
 import styled from "styled-components";
 import { StyledButton } from "./StyledComponents/StyledComponents";
@@ -80,7 +80,7 @@ const ArticleEditor = ({
         ref={editor}
         value={articleDetails.HTMLcontent}
         config={config}
-        tabIndex={1} // tabIndex of textarea
+        tabIndex={1}
         onBlur={(newContent) =>
           dispatch({ type: ACTIONS.CHANGE_CONTENT, payload: newContent })
         }
