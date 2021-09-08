@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export const useFetch = (url) => {
+export const useFetchGet = (url) => {
   const [result, setResult] = useState([
     //Initial Value
     {
@@ -9,7 +9,6 @@ export const useFetch = (url) => {
       description: "Loading Description...",
     },
   ]);
-
   useEffect(() => {
     console.log("Fetch Request Made");
     fetch(url)
@@ -17,9 +16,16 @@ export const useFetch = (url) => {
         if (response.ok) {
           return response.json();
         }
-        throw new TypeError("Server failed to respond with JSON");
+        return [
+          {
+            _id: "error",
+            title: "ERROR",
+            message: "Something went wrong.",
+            description: "Something went wrong.",
+          },
+        ];
       })
-      .then((json) => setResult(json))
+      .then((data) => setResult(data))
       .catch((err) => {
         setResult([
           {

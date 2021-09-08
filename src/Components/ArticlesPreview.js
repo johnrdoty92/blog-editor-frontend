@@ -7,11 +7,11 @@ import {
 import React, { useState, useEffect } from "react";
 import { ACTIONS } from "../hooks/reducer";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { useFetch } from "../hooks/useFetch";
+import { useFetchGet } from "../hooks/useFetchGet";
 
 const ArticlesPreview = ({ dispatch, setModalIsOpen, setFetchResponse }) => {
   //Fetch all articles and rerender anytime an article is deleted
-  const articles = useFetch("/articles");
+  const articles = useFetchGet("/articles");
   const [articlesArray, setArticlesArray] = useState(articles);
   useEffect(() => {
     setArticlesArray(articles);
@@ -41,7 +41,13 @@ const ArticlesPreview = ({ dispatch, setModalIsOpen, setFetchResponse }) => {
             fetch(`/articles/${article._id}`, {
               method: "DELETE",
               headers: { "Content-Type": "application/json" },
-            });
+            })
+              .then((response) => response.json())
+              .then((data) => setFetchResponse(data))
+              .catch((err) =>
+                setFetchResponse({ title: err.name, message: err.message })
+              );
+            setModalIsOpen(true);
             setArticlesArray(articlesArray.splice(index, 1));
           }}
         >
@@ -50,6 +56,7 @@ const ArticlesPreview = ({ dispatch, setModalIsOpen, setFetchResponse }) => {
       </StyledPreview>
     );
   });
+
   return (
     <Container>
       <Heading>All Articles</Heading>

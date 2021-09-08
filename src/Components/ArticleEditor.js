@@ -52,6 +52,7 @@ const ArticleEditor = ({
       );
       const jsonResponse = await response.json();
       setFetchResponse({
+        status: response.status,
         title: jsonResponse?.title,
         message: jsonResponse?.message,
       });

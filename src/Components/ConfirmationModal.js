@@ -1,3 +1,4 @@
+import autobind from "autobind-decorator";
 import Modal from "react-modal";
 import styled from "styled-components";
 import { StyledButton } from "./StyledComponents/StyledComponents";
@@ -7,10 +8,13 @@ const style = {
     backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
   content: {
-    top: "50px",
-    left: "50px",
-    right: "50px",
+    top: "10%",
+    left: "10%",
+    right: "10%",
     bottom: "50%",
+    maxWidth: "40em",
+    marginLeft: "auto",
+    marginRight: "auto",
     display: "flex",
     flexDirection: "column",
   },
@@ -27,7 +31,7 @@ const ConfirmationModal = ({ fetchResponse, modalIsOpen, setModalIsOpen }) => {
       <h3 style={{ textAlign: "center" }}>
         <b>{status}</b> {title}
       </h3>
-      <p>{message}</p>
+      <p style={{ textAlign: "center" }}>{message}</p>
       <ConfirmationButton onClick={() => setModalIsOpen(false)}>
         OK
       </ConfirmationButton>
