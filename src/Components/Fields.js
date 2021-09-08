@@ -10,8 +10,8 @@ const Fields = ({ dispatch, articleDetails, heading }) => {
         <input
           type="text"
           required={true}
-          value={articleDetails.title}
-          onChange={(e) =>
+          defaultValue={articleDetails.title}
+          onBlur={(e) =>
             dispatch({ type: ACTIONS.CHANGE_TITLE, payload: e.target.value })
           }
         ></input>
@@ -21,8 +21,8 @@ const Fields = ({ dispatch, articleDetails, heading }) => {
         <input
           type="text"
           required={true}
-          value={articleDetails.description}
-          onChange={(e) =>
+          defaultValue={articleDetails.description}
+          onBlur={(e) =>
             dispatch({ type: ACTIONS.CHANGE_DESC, payload: e.target.value })
           }
         ></input>
@@ -32,8 +32,8 @@ const Fields = ({ dispatch, articleDetails, heading }) => {
         <input
           type="text"
           required={true}
-          value={articleDetails.author}
-          onChange={(e) =>
+          defaultValue={articleDetails.author}
+          onBlur={(e) =>
             dispatch({ type: ACTIONS.CHANGE_AUTHOR, payload: e.target.value })
           }
         ></input>
